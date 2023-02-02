@@ -41,7 +41,7 @@ export class ArtistService {
   }
 
   async remove(id: string) {
-    const idx = this.artists.findIndex((artists) => artists.id === id);
+    const idx = this.artists.findIndex((artist) => artist.id === id);
     if (idx === -1) throw new NotFoundException();
     this.TrackService.tracks.forEach(track => {
       if (track.artistId === id) track.artistId = null
