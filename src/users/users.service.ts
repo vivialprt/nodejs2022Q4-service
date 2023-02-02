@@ -32,8 +32,6 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    if (!isUUID(id)) throw new BadRequestException();
-
     let user = this.users.find(user => user.id === id);
   
     if (!user)
@@ -43,8 +41,6 @@ export class UsersService {
   }
 
   async update(id: string, updatePasswordDto: UpdatePasswordDto) {
-    if (!isUUID(id)) throw new BadRequestException();
-
     const idx = this.users.findIndex((user) => user.id === id);
     if (idx === -1) throw new NotFoundException();
 
@@ -58,8 +54,6 @@ export class UsersService {
   }
 
   async remove(id: string) {
-    if (!isUUID(id)) throw new BadRequestException();
-
     const idx = this.users.findIndex((user) => user.id === id);
     if (idx === -1) throw new NotFoundException();
 
