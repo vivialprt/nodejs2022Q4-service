@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { TrackService } from 'src/track/track.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { Artist } from './entities/artist.entity';
@@ -7,6 +8,8 @@ import { Artist } from './entities/artist.entity';
 @Injectable()
 export class ArtistService {
   public artists: Artist[] = [];
+  @Inject(TrackService)
+  public TrackService: TrackService;
 
   async create(createArtistDto: CreateArtistDto) {
     const artist = new Artist();
@@ -40,7 +43,9 @@ export class ArtistService {
   async remove(id: string) {
     const idx = this.artists.findIndex((artists) => artists.id === id);
     if (idx === -1) throw new NotFoundException();
-
+    this.TrackService.tracks.forEach(track => {
+      if (track.artistId === id) track.artistId = null
+    });
     this.artists.splice(idx, 1);
     return;
   }
