@@ -9,7 +9,7 @@ import { Album } from './entities/album.entity';
 export class AlbumService {
   public albums: Album[] = [];
   @Inject(TrackService)
-  public TrackService: TrackService;
+  public trackService: TrackService;
 
   async create(createAlbumDto: CreateAlbumDto) {
     const album = new Album();
@@ -45,7 +45,7 @@ export class AlbumService {
   async remove(id: string) {
     const idx = this.albums.findIndex((album) => album.id === id);
     if (idx === -1) throw new NotFoundException();
-    this.TrackService.tracks.forEach(track => {
+    this.trackService.tracks.forEach(track => {
       if (track.albumId === id) track.albumId = null
     });
     this.albums.splice(idx, 1);
