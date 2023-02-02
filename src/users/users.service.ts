@@ -1,50 +1,69 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from './dto/update-user.dto';
 import { randomUUID } from 'crypto';
 import { NotFoundException } from '@nestjs/common';
-import { isUUID } from 'class-validator';
+import { isUUID, validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
 
   public users: User[] = [];
 
-  create(createUserDto: CreateUserDto) {
-    let user = {
-      'login': createUserDto.login,
-      'password': createUserDto.password,
-      'id': createUserDto.id ?? randomUUID(),
-      'version': createUserDto.version ?? 1,
-      'createdAt': createUserDto.createdAt ?? new Date().getTime(),
-      'updatedAt': createUserDto.updatedAt ?? new Date().getTime()
-    };
+  async create(createUserDto: CreateUserDto) {
+    let user = new User();
+    user.login = createUserDto.login;
+    user.password = createUserDto.password;
+    user.id = randomUUID();
+    user.version = 1;
+    user.createdAt = new Date().getTime();
+    user.updatedAt = new Date().getTime();
+
+    const errors = await validate(user);
+    if (errors.length > 0) throw new BadRequestException();
+
     this.users.push(user);
-    let {password: _, ...userWithoutPassword} = user;
-    return userWithoutPassword;
+    return user;
   }
 
-  findAll() {
+  async findAll() {
     return this.users;
   }
 
-  findOne(id: string) {
-    if (!isUUID(id))
-      throw new BadRequestException();
-    for(let user of this.users) {
-      if (user.id === id)
-        return user;
-    };
-    throw new NotFoundException();
+  async findOne(id: string) {
+    if (!isUUID(id)) throw new BadRequestException();
+
+    let user = this.users.find(user => user.id === id);
+  
+    if (!user)
+      throw new NotFoundException();
+    else
+      return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updatePasswordDto: UpdatePasswordDto) {
+    if (!isUUID(id)) throw new BadRequestException();
+
+    const idx = this.users.findIndex((user) => user.id === id);
+    if (idx === -1) throw new NotFoundException();
+
+    if (this.users.at(idx).password !== updatePasswordDto.oldPassword)
+      throw new ForbiddenException();
+
+    this.users.at(idx).password = updatePasswordDto.newPassword;
+    this.users.at(idx).version++;
+    this.users.at(idx).updatedAt = new Date().getTime();
+    return this.users.at(idx);
   }
 
-  remove(id: string) {
-    this.users = this.users.filter(user => {user.id !== id});
+  async remove(id: string) {
+    if (!isUUID(id)) throw new BadRequestException();
+
+    const idx = this.users.findIndex((user) => user.id === id);
+    if (idx === -1) throw new NotFoundException();
+
+    this.users.splice(idx, 1);
     return;
   }
 }

@@ -1,7 +1,8 @@
-import { User } from "../entities/user.entity";
+import { IsNotEmpty } from 'class-validator';
 
-export type CreateUserDto = Required<
-    Pick<User, 'login' | 'password'>
-> & Partial<
-    Omit<User, 'login' | 'password'>
->;
+export class CreateUserDto {
+    @IsNotEmpty()
+    login: string;
+    @IsNotEmpty()
+    password: string;
+}
