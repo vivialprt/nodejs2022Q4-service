@@ -4,7 +4,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
 import { randomUUID } from 'crypto';
 import { NotFoundException } from '@nestjs/common';
-import { isUUID, validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
@@ -19,9 +18,6 @@ export class UsersService {
     user.version = 1;
     user.createdAt = new Date().getTime();
     user.updatedAt = new Date().getTime();
-
-    const errors = await validate(user);
-    if (errors.length > 0) throw new BadRequestException();
 
     this.users.push(user);
     return user;
