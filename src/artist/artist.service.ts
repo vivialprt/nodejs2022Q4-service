@@ -6,11 +6,10 @@ import { Artist } from './entities/artist.entity';
 
 @Injectable()
 export class ArtistService {
-
   public artists: Artist[] = [];
 
   async create(createArtistDto: CreateArtistDto) {
-    let artist = new Artist();
+    const artist = new Artist();
     artist.id = randomUUID();
     artist.grammy = createArtistDto.grammy;
     artist.name = createArtistDto.name;
@@ -23,19 +22,16 @@ export class ArtistService {
   }
 
   async findOne(id: string) {
-    let artist = this.artists.find(user => user.id === id);
+    const artist = this.artists.find((user) => user.id === id);
 
-    if (!artist)
-      throw new NotFoundException();
-    else
-      return artist;
+    if (!artist) throw new NotFoundException();
+    else return artist;
   }
 
   async update(id: string, updateArtistDto: UpdateArtistDto) {
     const idx = this.artists.findIndex((user) => user.id === id);
     if (idx === -1) throw new NotFoundException();
-    if (updateArtistDto.name) 
-      this.artists.at(idx).name = updateArtistDto.name;
+    if (updateArtistDto.name) this.artists.at(idx).name = updateArtistDto.name;
     if (updateArtistDto.grammy !== null && updateArtistDto.grammy !== undefined)
       this.artists.at(idx).grammy = updateArtistDto.grammy;
     return this.artists.at(idx);

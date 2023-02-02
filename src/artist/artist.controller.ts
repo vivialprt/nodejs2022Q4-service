@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpCode, ParseUUIDPipe, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  HttpCode,
+  ParseUUIDPipe,
+  Put,
+} from '@nestjs/common';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -23,7 +33,10 @@ export class ArtistController {
   }
 
   @Put(':id')
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateArtistDto: UpdateArtistDto) {
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateArtistDto: UpdateArtistDto,
+  ) {
     return await this.artistService.update(id, updateArtistDto);
   }
 

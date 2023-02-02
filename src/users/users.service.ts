@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
@@ -7,11 +7,10 @@ import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-
   public users: User[] = [];
 
   async create(createUserDto: CreateUserDto) {
-    let user = new User();
+    const user = new User();
     user.login = createUserDto.login;
     user.password = createUserDto.password;
     user.id = randomUUID();
@@ -28,12 +27,10 @@ export class UsersService {
   }
 
   async findOne(id: string) {
-    let user = this.users.find(user => user.id === id);
-  
-    if (!user)
-      throw new NotFoundException();
-    else
-      return user;
+    const user = this.users.find((user) => user.id === id);
+
+    if (!user) throw new NotFoundException();
+    else return user;
   }
 
   async update(id: string, updatePasswordDto: UpdatePasswordDto) {
