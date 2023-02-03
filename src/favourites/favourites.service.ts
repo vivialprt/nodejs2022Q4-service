@@ -13,7 +13,7 @@ import { ArtistService } from 'src/artist/artist.service';
 @Injectable()
 export class FavouritesService {
   public favs: Favorites = new Favorites();
-  @Inject(TrackService)
+  @Inject(forwardRef(() => TrackService))
   public trackService: TrackService;
   @Inject(forwardRef(() => AlbumService))
   public albumService: AlbumService;

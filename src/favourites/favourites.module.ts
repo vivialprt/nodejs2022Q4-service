@@ -11,7 +11,7 @@ import { TrackModule } from 'src/track/track.module';
   imports: [
     forwardRef(() => ArtistModule),
     forwardRef(() => AlbumModule),
-    TrackModule,
+    forwardRef(() => TrackModule),
   ],
   exports: [FavouritesService],
 })
