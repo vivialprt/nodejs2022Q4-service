@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   Inject,
   Injectable,
   NotFoundException,
@@ -16,7 +17,7 @@ export class FavouritesService {
   public trackService: TrackService;
   @Inject(AlbumService)
   public albumService: AlbumService;
-  @Inject(ArtistService)
+  @Inject(forwardRef(() => ArtistService))
   public artistService: ArtistService;
 
   async getAll() {
