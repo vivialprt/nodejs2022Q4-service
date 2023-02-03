@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Favorites } from './entities/favourite.entity';
 import { TrackService } from 'src/track/track.service';
 import { AlbumService } from 'src/album/album.service';
@@ -16,16 +21,22 @@ export class FavouritesService {
 
   async getAll() {
     return {
-      artists: this.artistService.artists.filter(artist => this.favs.artists.includes(artist.id)),
-      albums: this.albumService.albums.filter(album => this.favs.albums.includes(album.id)),
-      tracks: this.trackService.tracks.filter(track => this.favs.tracks.includes(track.id))
-    }
+      artists: this.artistService.artists.filter((artist) =>
+        this.favs.artists.includes(artist.id),
+      ),
+      albums: this.albumService.albums.filter((album) =>
+        this.favs.albums.includes(album.id),
+      ),
+      tracks: this.trackService.tracks.filter((track) =>
+        this.favs.tracks.includes(track.id),
+      ),
+    };
   }
 
   async addTrack(id: string) {
     const idx = this.trackService.tracks.findIndex((track) => track.id === id);
     if (idx === -1) throw new UnprocessableEntityException();
-  
+
     this.favs.tracks.push(this.trackService.tracks.at(idx).id);
     return;
   }
@@ -41,7 +52,7 @@ export class FavouritesService {
   async addAlbum(id: string) {
     const idx = this.albumService.albums.findIndex((album) => album.id === id);
     if (idx === -1) throw new UnprocessableEntityException();
-  
+
     this.favs.albums.push(this.albumService.albums.at(idx).id);
     return;
   }
@@ -55,9 +66,11 @@ export class FavouritesService {
   }
 
   async addArtist(id: string) {
-    const idx = this.artistService.artists.findIndex((artist) => artist.id === id);
+    const idx = this.artistService.artists.findIndex(
+      (artist) => artist.id === id,
+    );
     if (idx === -1) throw new UnprocessableEntityException();
-  
+
     this.favs.artists.push(this.artistService.artists.at(idx).id);
     return;
   }

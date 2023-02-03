@@ -33,11 +33,13 @@ export class TrackService {
   async update(id: string, updateTrackDto: UpdateTrackDto) {
     const idx = this.tracks.findIndex((track) => track.id === id);
     if (idx === -1) throw new NotFoundException();
-    
+
     if (updateTrackDto.name) this.tracks.at(idx).name = updateTrackDto.name;
     if (updateTrackDto.duration) this.tracks.at(idx).name = updateTrackDto.name;
-    if (updateTrackDto.artistId !== undefined) this.tracks.at(idx).artistId = updateTrackDto.artistId;
-    if (updateTrackDto.albumId !== undefined) this.tracks.at(idx).albumId = updateTrackDto.albumId;
+    if (updateTrackDto.artistId !== undefined)
+      this.tracks.at(idx).artistId = updateTrackDto.artistId;
+    if (updateTrackDto.albumId !== undefined)
+      this.tracks.at(idx).albumId = updateTrackDto.albumId;
     return this.tracks.at(idx);
   }
 

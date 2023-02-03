@@ -35,18 +35,19 @@ export class AlbumService {
   async update(id: string, updateAlbumDto: UpdateAlbumDto) {
     const idx = this.albums.findIndex((album) => album.id === id);
     if (idx === -1) throw new NotFoundException();
-    
+
     if (updateAlbumDto.name) this.albums.at(idx).name = updateAlbumDto.name;
     if (updateAlbumDto.year) this.albums.at(idx).year = updateAlbumDto.year;
-    if (updateAlbumDto.artistId !== undefined) this.albums.at(idx).artistId = updateAlbumDto.artistId;
+    if (updateAlbumDto.artistId !== undefined)
+      this.albums.at(idx).artistId = updateAlbumDto.artistId;
     return this.albums.at(idx);
   }
 
   async remove(id: string) {
     const idx = this.albums.findIndex((album) => album.id === id);
     if (idx === -1) throw new NotFoundException();
-    this.trackService.tracks.forEach(track => {
-      if (track.albumId === id) track.albumId = null
+    this.trackService.tracks.forEach((track) => {
+      if (track.albumId === id) track.albumId = null;
     });
     this.albums.splice(idx, 1);
     return;
