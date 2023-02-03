@@ -15,7 +15,7 @@ export class FavouritesService {
   public favs: Favorites = new Favorites();
   @Inject(TrackService)
   public trackService: TrackService;
-  @Inject(AlbumService)
+  @Inject(forwardRef(() => AlbumService))
   public albumService: AlbumService;
   @Inject(forwardRef(() => ArtistService))
   public artistService: ArtistService;

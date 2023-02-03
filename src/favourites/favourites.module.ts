@@ -8,7 +8,11 @@ import { TrackModule } from 'src/track/track.module';
 @Module({
   controllers: [FavouritesController],
   providers: [FavouritesService],
-  imports: [forwardRef(() => ArtistModule), AlbumModule, TrackModule],
+  imports: [
+    forwardRef(() => ArtistModule),
+    forwardRef(() => AlbumModule),
+    TrackModule,
+  ],
   exports: [FavouritesService],
 })
 export class FavouritesModule {}

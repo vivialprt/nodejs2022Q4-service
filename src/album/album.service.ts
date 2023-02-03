@@ -1,5 +1,11 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { FavouritesService } from 'src/favourites/favourites.service';
 import { TrackService } from 'src/track/track.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
@@ -10,6 +16,8 @@ export class AlbumService {
   public albums: Album[] = [];
   @Inject(TrackService)
   public trackService: TrackService;
+  @Inject(forwardRef(() => FavouritesService))
+  public favoriteService: FavouritesService;
 
   async create(createAlbumDto: CreateAlbumDto) {
     const album = new Album();
@@ -49,6 +57,11 @@ export class AlbumService {
     this.trackService.tracks.forEach((track) => {
       if (track.albumId === id) track.albumId = null;
     });
+    const idxInFavs = this.favoriteService.favs.artists.findIndex(
+      (artistId) => artistId === id,
+    );
+    if (idxInFavs !== -1)
+      this.favoriteService.favs.artists.splice(idxInFavs, 1);
     this.albums.splice(idx, 1);
     return;
   }
