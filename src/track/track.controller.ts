@@ -12,7 +12,7 @@ import {
 import { TrackService } from './track.service';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { ApiBadRequestResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('track')
 @ApiTags('Track')
@@ -21,6 +21,7 @@ export class TrackController {
 
   @Post()
   @ApiOperation({summary: 'Create track.'})
+  @ApiCreatedResponse({description: 'Track created.'})
   @ApiBadRequestResponse({ description: 'Invalid request.'})
   async create(@Body() createTrackDto: CreateTrackDto) {
     return await this.trackService.create(createTrackDto);

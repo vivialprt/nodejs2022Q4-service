@@ -14,7 +14,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
-import { ApiBadRequestResponse, ApiForbiddenResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiForbiddenResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('User')
@@ -24,6 +24,7 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   @ApiOperation({summary: 'Create user.'})
+  @ApiCreatedResponse({description: 'User created.'})
   @ApiBadRequestResponse({ description: 'Invalid request.'})
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);

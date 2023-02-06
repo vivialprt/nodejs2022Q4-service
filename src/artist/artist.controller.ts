@@ -9,7 +9,7 @@ import {
   ParseUUIDPipe,
   Put,
 } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ArtistService } from './artist.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
@@ -21,6 +21,7 @@ export class ArtistController {
 
   @Post()
   @ApiOperation({summary: 'Create artist.'})
+  @ApiCreatedResponse({description: 'Artist created.'})
   @ApiBadRequestResponse({ description: 'Invalid request.'})
   async create(@Body() createArtistDto: CreateArtistDto) {
     return await this.artistService.create(createArtistDto);

@@ -9,7 +9,7 @@ import {
   Put,
   HttpCode,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBadRequestResponse, ApiNotFoundResponse, ApiNoContentResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBadRequestResponse, ApiNotFoundResponse, ApiNoContentResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
@@ -21,6 +21,7 @@ export class AlbumController {
 
   @Post()
   @ApiOperation({summary: 'Create album.'})
+  @ApiCreatedResponse({description: 'Album created.'})
   @ApiBadRequestResponse({ description: 'Invalid request.'})
   async create(@Body() createAlbumDto: CreateAlbumDto) {
     return await this.albumService.create(createAlbumDto);
