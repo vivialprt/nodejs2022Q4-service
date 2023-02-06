@@ -41,7 +41,7 @@ export class ArtistController {
   }
 
   @Put(':id')
-  @ApiOperation({summary: 'Change artist.'})
+  @ApiOperation({summary: 'Update artist.'})
   @ApiBadRequestResponse({description: 'Invalid request.'})
   @ApiNotFoundResponse({description: 'Artist not found.'})
   async update(

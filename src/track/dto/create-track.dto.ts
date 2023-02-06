@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
@@ -9,13 +10,17 @@ import {
 export class CreateTrackDto {
   @IsString()
   @IsNotEmpty()
+  @ApiProperty()
   name: string;
   @IsUUID()
   @IsOptional()
+  @ApiPropertyOptional()
   artistId?: string;
   @IsUUID()
   @IsOptional()
+  @ApiPropertyOptional()
   albumId?: string;
   @IsNumber()
+  @ApiProperty()
   duration: number;
 }
