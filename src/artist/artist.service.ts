@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { AlbumService } from 'src/album/album.service';
 import { FavouritesService } from 'src/favourites/favourites.service';
 import { TrackService } from 'src/track/track.service';
 import { CreateArtistDto } from './dto/create-artist.dto';
@@ -16,6 +17,8 @@ export class ArtistService {
   public artists: Artist[] = [];
   @Inject(TrackService)
   public trackService: TrackService;
+  @Inject(AlbumService)
+  public albumService: AlbumService;
   @Inject(forwardRef(() => FavouritesService))
   public favoriteService: FavouritesService;
 
@@ -53,6 +56,9 @@ export class ArtistService {
     if (idx === -1) throw new NotFoundException();
     this.trackService.tracks.forEach((track) => {
       if (track.artistId === id) track.artistId = null;
+    });
+    this.albumService.albums.forEach((album) => {
+      if (album.artistId === id) album.artistId = null;
     });
     const idxInFavs = this.favoriteService.favs.artists.findIndex(
       (artistId) => artistId === id,
