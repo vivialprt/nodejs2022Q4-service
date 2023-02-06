@@ -5,7 +5,7 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { Favorites } from './entities/favourite.entity';
+import { Favorites, FavoritesRepsonse } from './entities/favourite.entity';
 import { TrackService } from 'src/track/track.service';
 import { AlbumService } from 'src/album/album.service';
 import { ArtistService } from 'src/artist/artist.service';
@@ -20,7 +20,7 @@ export class FavouritesService {
   @Inject(forwardRef(() => ArtistService))
   public artistService: ArtistService;
 
-  async getAll() {
+  async getAll(): Promise<FavoritesRepsonse> {
     return {
       artists: this.artistService.artists.filter((artist) =>
         this.favs.artists.includes(artist.id),
