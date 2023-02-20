@@ -1,8 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-user.dto';
-import { randomUUID } from 'crypto';
 import { NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 
