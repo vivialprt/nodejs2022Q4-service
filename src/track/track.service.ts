@@ -55,6 +55,7 @@ export class TrackService {
   async remove(id: string) {
     const track = await this.prisma.track.findUnique({where: { id }});
     if (!track) throw new NotFoundException();
+    await this.prisma.favouriteTrack.deleteMany({where: { trackId: id }});
 
     await this.prisma.track.delete({where: { id }});
   }

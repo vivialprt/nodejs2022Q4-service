@@ -60,7 +60,7 @@ model Track {
 model FavouriteAlbum {
   id      Int    @id @default(autoincrement())
   albumId String @unique
-  album   Album  @relation(fields: [albumId], references: [id])
+  album   Album  @relation(fields: [albumId], references: [id], onDelete: Cascade)
 
   @@map("fav_albums")
 }
@@ -68,7 +68,7 @@ model FavouriteAlbum {
 model FavouriteArtist {
   id       Int    @id @default(autoincrement())
   artistId String @unique
-  artist   Artist @relation(fields: [artistId], references: [id])
+  artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
   @@map("fav_artists")
 }
@@ -76,7 +76,7 @@ model FavouriteArtist {
 model FavouriteTrack {
   id      Int    @id @default(autoincrement())
   trackId String @unique
-  track   Track  @relation(fields: [trackId], references: [id])
+  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
 
   @@map("fav_tracks")
 }

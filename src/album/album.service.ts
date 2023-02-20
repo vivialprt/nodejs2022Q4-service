@@ -48,6 +48,7 @@ export class AlbumService {
   async remove(id: string) {
     const album = await this.prisma.album.findUnique({where: { id }});
     if (!album) throw new NotFoundException();
+    await this.prisma.favouriteAlbum.deleteMany({where: { albumId: id }});
 
     await this.prisma.album.delete({where: { id }});
   }
