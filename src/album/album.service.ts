@@ -39,7 +39,7 @@ export class AlbumService {
       data: {
         name: updateAlbumDto.name ?? album.name,
         year: updateAlbumDto.year ?? album.year,
-        artistId: updateAlbumDto.artistId == undefined ? updateAlbumDto.artistId : album.artistId,
+        artistId: updateAlbumDto.artistId == undefined ? album.artistId : updateAlbumDto.artistId,
       }
     });
     return updatedAlbum;
